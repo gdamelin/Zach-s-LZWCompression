@@ -41,15 +41,53 @@ public class LZW{
 		throw new Exception("During the first assignment, Zach did not finish his encoder method called 'Convert to Binary'. When Ben took over Zach's code, he made a decoder method using his own encoder method, but did not touch Zach's encoder method. When I took over this code, the encoder method only forms the dictionary, but fails to produce an encoded file.");
 	}
 
-	public String decompress(String compressed) throws FileNotFoundException
+	public String decompress(ArrayList<Integer> compressed)
 	{
-		Scanner s = new Scanner(new File(compressed));
-		String compressedString = "";
-		while(s.hasNext()){
-			compressedString = compressedString + s.next();
-		}
-		s.close();
+		Map<Integer, String> dictionary = new HashMap<Integer, String>();
 		
+		int dictionarySize = 256;
+		
+		for (int i = 0; i < dictionarySize; i++)
+		{
+			Character theChar = (char)i;
+			String theString = "" + theChar;
+			dictionary.put(i, theString);
+		}
+		
+		int firstCompressedInt = compressed.get(0);
+		Character firstCompressedChar = (char)firstCompressedInt;
+		
+		compressed.remove(0);
+
+		String currentLetters = "" + firstCompressedChar;
+		
+		String output = currentLetters;
+		
+		for (int i = 0; i < compressed.size(); i++)
+		{
+			int letters = compressed.get(i);
+					
+			String dictionaryEntry;
+
+			if (dictionary.containsKey(letters))
+			{
+				dictionaryEntry = dictionary.get(letters);
+			}
+			else
+			{
+				dictionaryEntry = currentLetters + currentLetters.charAt(0);
+			}
+			
+			output = output + dictionaryEntry;
+			
+			dictionary.put(dictionarySize++, currentLetters + dictionaryEntry.charAt(0));
+			
+			currentLetters = dictionaryEntry;
+		}
+		
+		return (output);
+		
+		/*
 		ArrayList<String> dict=new ArrayList<String>();
 		for (int i=0;i<256;i++){
 			dict.add(""+(char)i);
@@ -73,6 +111,7 @@ public class LZW{
 		}
 		
 		return(decompressed);
+		*/
 	}
 	/**
 	 * writeToFile() and decompress() methods are working. I haven't touched the 
