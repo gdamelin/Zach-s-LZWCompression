@@ -18,25 +18,13 @@ public class LZW{
 		StringBuilder ret = new StringBuilder("");
 		ArrayList<String> dict = new ArrayList<String>();
 		BufferedReader reader = new BufferedReader(new FileReader(file));
-		for(int i =0;i<=255;i++)
-		{
-			dict.add(""+(char)i);
-		}
+		
+		for(int i =0;i<=255;i++) { dict.add(""+(char)i); }
+		
 		String current = ""+((char)(reader.read()));
 		String next = ""+((char)(reader.read()));
-		while(reader.ready())
-		{
-			if(!dict.contains(current+next)&&dict.size()<512)
-			{
-				dict.add(current+next);
-				current +=next;
-			}
-			else
-			{
-				current = next;  
-			}
-			next = ""+((char)(reader.read()));
-		}
+		
+		while(reader.ready()) { if(!dict.contains(current+next)&&dict.size()<512) { dict.add(current+next); current +=next; } else { current = next;   } next = ""+((char)(reader.read())); }
 
 		throw new Exception("During the first assignment, Zach did not finish his encoder method called 'Convert to Binary'. When Ben took over Zach's code, he made a decoder method using his own encoder method, but did not touch Zach's encoder method. When I took over this code, the encoder method only forms the dictionary, but fails to produce an encoded file.");
 	}
