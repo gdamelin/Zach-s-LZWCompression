@@ -41,6 +41,7 @@ public class LZW{
 		throw new Exception("During the first assignment, Zach did not finish his encoder method called 'Convert to Binary'. When Ben took over Zach's code, he made a decoder method using his own encoder method, but did not touch Zach's encoder method. When I took over this code, the encoder method only forms the dictionary, but fails to produce an encoded file.");
 	}
 
+	//this method now works, but it accepts an ArrayList of encoded integers
 	public String decompress(ArrayList<Integer> compressed)
 	{
 		Map<Integer, String> dictionary = new HashMap<Integer, String>();
@@ -61,7 +62,7 @@ public class LZW{
 
 		String currentLetters = "" + firstCompressedChar;
 		
-		String output = currentLetters;
+		StringBuilder output = new StringBuilder(currentLetters);
 		
 		for (int i = 0; i < compressed.size(); i++)
 		{
@@ -78,14 +79,14 @@ public class LZW{
 				dictionaryEntry = currentLetters + currentLetters.charAt(0);
 			}
 			
-			output = output + dictionaryEntry;
+			output.append(dictionaryEntry);
 			
 			dictionary.put(dictionarySize++, currentLetters + dictionaryEntry.charAt(0));
 			
 			currentLetters = dictionaryEntry;
 		}
 		
-		return (output);
+		return (output.toString());
 		
 		/*
 		ArrayList<String> dict=new ArrayList<String>();
