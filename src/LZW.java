@@ -48,12 +48,7 @@ public class LZW{
 		
 		int dictionarySize = 256;
 		
-		for (int i = 0; i < dictionarySize; i++)
-		{
-			Character theChar = (char)i;
-			String theString = "" + theChar;
-			dictionary.put(i, theString);
-		}
+		for (int i = 0; i < dictionarySize; i++) { Character theChar = (char)i; String theString = "" + theChar; dictionary.put(i, theString); }
 		
 		int firstCompressedInt = compressed.get(0);
 		Character firstCompressedChar = (char)firstCompressedInt;
@@ -64,27 +59,7 @@ public class LZW{
 		
 		StringBuilder output = new StringBuilder(currentLetters);
 		
-		for (int i = 0; i < compressed.size(); i++)
-		{
-			int letters = compressed.get(i);
-					
-			String dictionaryEntry;
-
-			if (dictionary.containsKey(letters))
-			{
-				dictionaryEntry = dictionary.get(letters);
-			}
-			else
-			{
-				dictionaryEntry = currentLetters + currentLetters.charAt(0);
-			}
-			
-			output.append(dictionaryEntry);
-			
-			dictionary.put(dictionarySize++, currentLetters + dictionaryEntry.charAt(0));
-			
-			currentLetters = dictionaryEntry;
-		}
+		for (int i = 0; i < compressed.size(); i++) { int letters = compressed.get(i); String dictionaryEntry; if (dictionary.containsKey(letters)) { dictionaryEntry = dictionary.get(letters); } else { dictionaryEntry = currentLetters + currentLetters.charAt(0); } output.append(dictionaryEntry); dictionary.put(dictionarySize++, currentLetters + dictionaryEntry.charAt(0)); currentLetters = dictionaryEntry; }
 		
 		return (output.toString());
 		
