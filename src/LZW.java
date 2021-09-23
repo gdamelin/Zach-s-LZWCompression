@@ -41,12 +41,20 @@ public class LZW{
 		throw new Exception("During the first assignment, Zach did not finish his encoder method called 'Convert to Binary'. When Ben took over Zach's code, he made a decoder method using his own encoder method, but did not touch Zach's encoder method. When I took over this code, the encoder method only forms the dictionary, but fails to produce an encoded file.");
 	}
 
-	public String decompress(String compressed)
+	public String decompress(String compressed) throws FileNotFoundException
 	{
+		Scanner s = new Scanner(new File(compressed));
+		String compressedString = "";
+		while(s.hasNext()){
+			compressedString = compressedString + s.next();
+		}
+		s.close();
+		
 		ArrayList<String> dict=new ArrayList<String>();
 		for (int i=0;i<256;i++){
 			dict.add(""+(char)i);
 		}
+		
 		String prev=""+(char)(Integer.parseInt(compressed.substring(0,NUM),2)),decompressed=prev;
 		int c=0;
 		while(compressed.length()>NUM){
